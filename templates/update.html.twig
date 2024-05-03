@@ -1,0 +1,86 @@
+
+{% block body %}
+<div style="width: 75%;">
+    <h1>Modifier un Article</h1>
+    <div class="container-form">
+        {{ form_start(form, {'attr': {'class': 'post form'}}) }}
+            {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap");
+
+    :root {
+        --yellow: #ffdd40;
+        --dark: #2f313a;
+        --trans: all 0.4s ease 0s;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Lato", Arial, Helvetica, sans-serif;
+        background: linear-gradient(90deg, #131417, var(--dark) 35%, #131417);
+        font-size: 1em;
+        height: 100vh;
+    }
+
+    h1{
+       color: var(--yellow); 
+    }
+
+    .container-form {
+        background: var(--yellow);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        transition: var(--trans);
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    input, textarea, select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: var(--trans);
+        width: 100%; /* Ensures that the inputs take the full width */
+        margin-bottom: 15px;
+    }
+
+    textarea{
+        min-height: 300px;
+        resize: vertical;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        border-color: var(--dark);
+        box-shadow: 0 0 8px 0 rgba(0,0,0,0.3);
+    }
+
+    input[type="submit"] {
+        background: var(--dark);
+        color: white;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background: #131417;
+    }
+</style>
+{% endblock %}
+
+
+

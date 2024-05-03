@@ -1,5 +1,33 @@
 controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+    resource: '../src/Controller/'
     type: attribute
+
+update_article:
+    path: /update-article/{id}
+    controller: App\Controller\ArticlesController::update
+
+delete_article:
+    path: /delete-article/{id}
+    controller: App\Controller\ArticlesController::delete
+
+blog_index:
+    path: /blog
+    controller: App\Controller\BlogController::index
+
+blog_detail:
+    path: /blog/{id}
+    controller: App\Controller\BlogController::detail
+    requirements:
+        id: '\d+'
+
+new_post:
+    path: /post
+    controller: App\Controller\PostController::new
+
+homepage:
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+    defaults:
+        route: blog_index
+        permanent: true
+

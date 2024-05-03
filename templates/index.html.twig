@@ -1,0 +1,246 @@
+{% block body %}
+<div class="logout-button">
+    {% if app.user %}
+        <a href="{{ path('app_logout') }}" class="logout-link">
+            <img src="{{ asset('25376.png') }}" alt="Déconnexion"/>
+        </a>
+    {% endif %}
+</div>
+<div class="content">
+    <ul class="team">
+        {% for post in posts %}
+            <li class="member">
+                <div class="description">
+                    <h3>{{ post.titre }}</h3>
+                    <p>{{ post.contenu | slice(0, 150) }}...</p>
+                    <a href="{{ path('blog_detail', {'id': post.id}) }}">Lire cet article</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if app.user.userIdentifier == 'admin@admin.com' %}
+        <div class="admin-tools">
+            <a href="/post">Ajouter un article</a>
+        </div>
+    {% endif %}
+    <div class="overlay"></div>
+</div>
+{% for message in app.flashes('success') %}
+    <div class="success-popup">
+        <span>{{ message }}</span>
+        <span class="close-popup">&times;</span>
+    </div>
+{% endfor %}
+{% endblock %}
+
+
+{% block stylesheets %}
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap");
+
+:root {
+    --yellow: #ffdd40;
+    --dark: #2f313a;
+    --deg: -86deg;
+    --trans: all 0.4s ease 0s;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    font-family: "Lato", Arial, Helvetica, serif;
+    background: linear-gradient(90deg, #131417, var(--dark) 35% 65%, #131417);
+    font-size: 1em;
+}
+
+body *,
+body *:before,
+body *:after {
+    box-sizing: border-box;
+}
+
+.content {
+    width: 90vmin;
+    padding-top: 20px; /* Added padding for better spacing */
+}
+
+.team {
+    padding: 2em 0;
+    margin: 0;
+    list-style: none;
+}
+
+.member {
+    margin: 1.5em 0;
+    padding: 0.73em;
+    background: linear-gradient(83deg, var(--yellow) 0 97%, #fff0 calc(97% + 1px) 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transform: scale(0.85);
+    transition: var(--trans);
+}
+
+.member:nth-of-type(even) {
+    background: linear-gradient(-83deg, var(--yellow) 0 97%, #fff0 calc(97% + 1px) 100%);
+}
+
+.member:hover {
+    transform: scale(1);
+    filter: drop-shadow(0px 20px 10px #0008);
+}
+
+.description {
+    flex-grow: 1;
+    padding: 1vmin 2vmin;
+}
+
+h3 {
+    color: var(--yellow);
+    background: var(--dark);
+    padding: 0.5em 0.75em;
+    border-radius: 0.25em;
+    font-size: 1.35em;
+    display: inline-block;
+    margin: 0;
+}
+
+.description p {
+    color: black;
+    margin: 1em 0;
+}
+
+.description a {
+    color: var(--yellow);
+    text-decoration: none;
+    background: var(--dark);
+    padding: 0.1em 0.5em;
+    border-radius: 0.5em;
+    transition: var(--trans);
+}
+
+.description a:hover {
+    color: var(--dark);
+    background: var(--yellow);
+}
+
+.logout-button {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 1000;
+}
+
+.logout-link {
+    display: inline-block;
+    background-color: var(--yellow);
+    padding: 0.5em;
+    border-radius: 0.3em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: var(--trans);
+}
+
+.logout-link img {
+    height: 20px;
+    width: 20px;
+}
+
+.logout-link:hover {
+    background-color: #fff;
+    color: var(--dark);
+}
+
+.admin-tools {
+    margin-top: 0;
+    text-align: center;
+}
+
+.admin-tools a {
+    display: inline-block;
+    background-color: var(--yellow);
+    color: var(--dark);
+    font-size: 1.1em;
+    padding: 0.6em 1.2em;
+    border-radius: 0.5em;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: var(--trans);
+    text-decoration: none; /* Enlever le soulignement par défaut */
+}
+
+.admin-tools a:hover {
+    color: var(--dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.success-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--yellow);
+    color: var(--dark);
+    padding: 20px;
+    border-radius: 0.25em;
+    z-index: 9999;
+    text-align: center;
+    display: none;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+
+.success-popup span {
+    display: block;
+    color: black;
+}
+
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Style pour le fond semi-transparent */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fond semi-transparent */
+    z-index: 9998; /* Mettre en dessous de la popup */
+    display: none; /* Par défaut, le fond est caché */
+}
+</style>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+// JavaScript pour afficher la popup de message de réussite
+document.addEventListener('DOMContentLoaded', function() {
+    // Afficher la popup lorsque le document est chargé
+    var successPopup = document.querySelector('.success-popup');
+    successPopup.style.display = 'block';
+    document.body.style.overflowY = 'hidden';
+    var overlay = document.querySelector('.overlay');
+    overlay.style.display = 'block';
+
+    // Cacher la popup lorsque l'utilisateur clique sur la croix
+    var closePopup = document.querySelector('.close-popup');
+    closePopup.addEventListener('click', function() {
+        successPopup.style.display = 'none';
+        overlay.style.display = 'none';
+        document.body.style.overflowY = 'auto';
+    });
+});
+</script>
+{% endblock %}

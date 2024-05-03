@@ -1,0 +1,72 @@
+{% block body %}
+<div class="content">
+    <article>
+        <h1 style="color: var(--yellow); background: var(--dark); padding: 0.5em 0.75em; border-radius: 0.25em; font-size: 1.35em; display: inline-block; margin: 0;">{{ post.titre }}</h1>
+        <h2>écrit par : {{ post.auteur }}</h2>
+        <p>{{ post.contenu }}</p>
+        <p>Publié {{ post.dateDePublication|ago }}</p>
+
+        {% if app.user.userIdentifier == 'admin@admin.com' %}
+            <a href="{{ path('update_article', {'id': post.id}) }}" style="display: inline-block; background-color: var(--dark); color: var(--yellow); font-size: 1.1em; padding: 0.6em 1.2em; border-radius: 0.5em; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: var(--trans); text-decoration: none;">Modifier</a>
+            <a href="{{ path('delete_article', {'id': post.id}) }}" style="display: inline-block; background-color: var(--dark); color: var(--yellow); font-size: 1.1em; padding: 0.6em 1.2em; border-radius: 0.5em; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: var(--trans); text-decoration: none;">Supprimer</a>
+        {% endif %}
+    </article>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap");
+
+    :root {
+        --yellow: #ffdd40;
+        --dark: #2f313a;
+        --trans: all 0.4s ease 0s;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        display: flex;
+        justify-content: center;
+        font-family: "Lato", Arial, Helvetica, sans-serif;
+        background: linear-gradient(90deg, #131417, var(--dark) 35%, #131417);
+        font-size: 1em;
+    }
+
+    body *,
+    body *:before,
+    body *:after {
+        box-sizing: border-box;
+    }
+
+    .content {
+        width: 70%; /* Ajustement de la largeur */
+        padding: 20px; /* Ajout de marge intérieure */
+        margin: auto; /* Centre la div horizontalement */
+        background: var(--yellow); /* Dégradé de couleur */
+        border-radius: 10px; /* Arrondi des coins */
+        text-align: center; /* Centre le contenu à l'intérieur */
+    }
+
+    .content a {
+        display: inline-block;
+        background-color: var(--yellow);
+        color: var(--dark);
+        font-size: 1.1em;
+        padding: 0.6em 1.2em;
+        border-radius: 0.5em;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        transition: var(--trans);
+        text-decoration: none;
+        margin: 0 5px; /* Ajout de marge horizontale entre les liens */
+    }
+
+    .content a:hover {
+        color: var(--dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+</style>
+{% endblock %}
